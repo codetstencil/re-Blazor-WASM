@@ -1,46 +1,45 @@
-﻿using CarRentalManagement.Client.Contracts;
-using CarRentalManagement.Client.Static;
-using CarRentalManagement.Shared.Domain;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using CarRentalManagement.Client.Contracts;
+using CarRentalManagement.Client.Static;
+using CarRentalManagement.Shared.Domain;
 
 namespace CarRentalManagement.Client.Pages.Bookings
 {
-    public partial class Index : IDisposable
+  public partial class Index : IDisposable
+  {
+    private List<Booking> Bookings;
+    [Inject] private IHttpRepository<Booking> _client { get; set; }
+    [Inject] private IJSRuntime js { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
-        private List<Booking> Bookings;
-        [Inject] IHttpRepository<Booking> _client { get; set; }
-        [Inject] IJSRuntime js { get; set; }
-
-        protected async override Task OnInitializedAsync()
-        {
-            Bookings = await _client.GetAll($"{Endpoints.BookingsEndpoint}");
-        }
-
-        protected async override Task OnAfterRenderAsync(bool firstRender)
-        {
-            await js.InvokeVoidAsync("AddDataTable", "#bookingsTable");
-        }
-
-        public void Dispose()
-        {
-            js.InvokeVoidAsync("DataTablesDispose", "#bookingsTable");
-        }
-
-        async Task Delete(int bookingsId)
-        {
-            var bookings = Bookings.First(q => q.Id == bookingsId);
-            var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {bookings.Customer.TaxId}?");
-            if (confirm)
-            {
-                await _client.Delete(Endpoints.BookingsEndpoint, bookingsId);
-                await OnInitializedAsync();
-            }
-
-        }
+      Bookings = await _client.GetAll($"{Endpoints.BookingsEndpoint}");
     }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+      await js.InvokeVoidAsync("AddDataTable", "#bookingsTable");
+    }
+
+    public void Dispose()
+    {
+      js.InvokeVoidAsync("DataTablesDispose", "#bookingsTable");
+    }
+
+    private async Task Delete(int bookingsId)
+    {
+      var bookings = Bookings.First(q => q.Id == bookingsId);
+      var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {bookings.Customer.TaxId}?");
+      if (confirm)
+      {
+        await _client.Delete(Endpoints.BookingsEndpoint, bookingsId);
+        await OnInitializedAsync();
+      }
+    }
+  }
 }

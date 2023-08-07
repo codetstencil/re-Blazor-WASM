@@ -1,36 +1,30 @@
-﻿using CarRentalManagement.Client.Static;
-using CarRentalManagement.Shared.Domain;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using CarRentalManagement.Client.Contracts;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
 using CarRentalManagement.Client.Services;
+using CarRentalManagement.Client.Static;
+using CarRentalManagement.Shared.Domain;
 
 namespace CarRentalManagement.Client.Pages.Models
 {
-    public partial class Edit 
+  public partial class Edit
+  {
+    [Inject] private IHttpRepository<Model> _client { get; set; }
+    [Inject] private NavigationManager _navManager { get; set; }
+    [Inject] private HttpInterceptorService _interceptor { get; set; }
+
+    [Parameter] public int id { get; set; }
+    private Model model = new Model();
+
+    protected override async Task OnParametersSetAsync()
     {
-       [Inject] IHttpRepository<Model> _client { get; set; }
-        [Inject] NavigationManager _navManager { get; set; }
-        [Inject] HttpInterceptorService _interceptor { get; set; }
-
-        [Parameter] public int id { get; set; }
-        Model model = new Model();
-
-        protected async override Task OnParametersSetAsync()
-        {
-            model = await _client.Get(Endpoints.ModelsEndpoint, id);
-        }
-
-        async Task EditModel()
-        {
-            await _client.Update(Endpoints.ModelsEndpoint, model, id);
-            _navManager.NavigateTo("/models/");
-        }
-      
+      model = await _client.Get(Endpoints.ModelsEndpoint, id);
     }
+
+    private async Task EditModel()
+    {
+      await _client.Update(Endpoints.ModelsEndpoint, model, id);
+      _navManager.NavigateTo("/models/");
+    }
+  }
 }

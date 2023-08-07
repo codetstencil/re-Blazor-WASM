@@ -1,30 +1,25 @@
-﻿using CarRentalManagement.Client.Static;
-using CarRentalManagement.Shared.Domain;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using CarRentalManagement.Client.Contracts;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
 using CarRentalManagement.Client.Services;
+using CarRentalManagement.Client.Static;
+using CarRentalManagement.Shared.Domain;
 
 namespace CarRentalManagement.Client.Pages.Customers
 {
-    public partial class View 
+  public partial class View
+  {
+    [Inject] private IHttpRepository<Customer> _client { get; set; }
+    [Inject] private IJSRuntime js { get; set; }
+    [Inject] private HttpInterceptorService _interceptor { get; set; }
+
+    [Parameter] public int id { get; set; }
+    private Customer customer = new Customer();
+
+    protected override async Task OnParametersSetAsync()
     {
-       [Inject] IHttpRepository<Customer> _client { get; set; }
-        [Inject] IJSRuntime js { get; set; }
-        [Inject] HttpInterceptorService _interceptor { get; set; }
-
-        [Parameter] public int id { get; set; }
-        Customer customer = new Customer();
-
-        protected async override Task OnParametersSetAsync()
-        {
-            customer = await _client.Get(Endpoints.CustomersEndpoint, id);
-        }
-        
+      customer = await _client.Get(Endpoints.CustomersEndpoint, id);
     }
+  }
 }

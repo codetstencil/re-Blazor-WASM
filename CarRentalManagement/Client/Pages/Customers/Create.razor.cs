@@ -1,30 +1,23 @@
-﻿using CarRentalManagement.Client.Static;
-using CarRentalManagement.Shared.Domain;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
-using CarRentalManagement.Client.Services;
 using CarRentalManagement.Client.Contracts;
+using CarRentalManagement.Client.Services;
+using CarRentalManagement.Client.Static;
+using CarRentalManagement.Shared.Domain;
 
 namespace CarRentalManagement.Client.Pages.Customers
 {
-    public partial class Create
-    {
-        [Inject] IHttpRepository<Customer> _client { get; set; }
-        [Inject] NavigationManager _navManager { get; set; }
-        [Inject] HttpInterceptorService _interceptor { get; set; }
-        Customer customer = new Customer();
+  public partial class Create
+  {
+    [Inject] private IHttpRepository<Customer> _client { get; set; }
+    [Inject] private NavigationManager _navManager { get; set; }
+    [Inject] private HttpInterceptorService _interceptor { get; set; }
+    private Customer customer = new Customer();
 
-        private async Task CreateCustomer()
-        {
-            await _client.Create(Endpoints.CustomersEndpoint, customer);
-            _navManager.NavigateTo("/customers/");
-        }
-       
+    private async Task CreateCustomer()
+    {
+      await _client.Create(Endpoints.CustomersEndpoint, customer);
+      _navManager.NavigateTo("/customers/");
     }
+  }
 }

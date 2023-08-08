@@ -9,22 +9,22 @@ namespace CarRentalManagement.Client.Pages.Makes
 {
   public partial class Edit
   {
-    [Inject] private IHttpRepository<Make> _client { get; set; }
-    [Inject] private NavigationManager _navManager { get; set; }
-    [Inject] private HttpInterceptorService _interceptor { get; set; }
+    [Inject] private IHttpRepository<Make> Client { get; set; }
+    [Inject] private NavigationManager NavManager { get; set; }
+    [Inject] private HttpInterceptorService Interceptor { get; set; }
 
-    [Parameter] public int id { get; set; }
-    private Make make = new Make();
+    [Parameter] public int Id { get; set; }
+    private Make _make = new Make();
 
     protected override async Task OnParametersSetAsync()
     {
-      make = await _client.Get(Endpoints.MakesEndpoint, id);
+      _make = await Client.Get(Endpoints.MakesEndpoint, Id);
     }
 
     private async Task EditMake()
     {
-      await _client.Update(Endpoints.MakesEndpoint, make, id);
-      _navManager.NavigateTo("/makes/");
+      await Client.Update(Endpoints.MakesEndpoint, _make, Id);
+      NavManager.NavigateTo("/makes/");
     }
   }
 }

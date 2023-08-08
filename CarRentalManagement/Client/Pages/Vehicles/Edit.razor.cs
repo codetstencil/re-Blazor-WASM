@@ -14,16 +14,14 @@ namespace CarRentalManagement.Client.Pages.Vehicles
     [Inject] private HttpInterceptorService _interceptor { get; set; }
 
     [Parameter] public int id { get; set; }
-    private Vehicle vehicle = new Vehicle();
+    private Vehicle _vehicle = new Vehicle();
 
-    protected override async Task OnParametersSetAsync()
-    {
-      vehicle = await _client.Get(Endpoints.VehiclesEndpoint, id);
-    }
+    protected override async Task OnParametersSetAsync() => 
+      _vehicle = await _client.Get(Endpoints.VehiclesEndpoint, id);
 
     private async Task EditVehicle()
     {
-      await _client.Update(Endpoints.VehiclesEndpoint, vehicle, id);
+      await _client.Update(Endpoints.VehiclesEndpoint, _vehicle, id);
       _navManager.NavigateTo("/vehicles/");
     }
   }

@@ -8,15 +8,15 @@ namespace CarRentalManagement.Client.Pages.Colours
 {
   public partial class Create
   {
-    [Inject] private IHttpRepository<Colour> _client { get; set; }
-    [Inject] private NavigationManager _navManager { get; set; }
+    [Inject] private IHttpRepository<Colour> Client { get; set; }
+    [Inject] private NavigationManager NavManager { get; set; }
 
     private Colour colour = new Colour();
 
     private async Task CreateColour()
     {
-      await _client.Create(Endpoints.ColoursEndpoint, colour);
-      _navManager.NavigateTo("/colours/");
+      await Client.Create(Endpoints.ColoursEndpoint, colour);
+      NavManager.NavigateTo("/colours/");
     }
   }
 }

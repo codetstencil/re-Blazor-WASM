@@ -1,10 +1,10 @@
-﻿using CarRentalManagement.Server.IRepository;
-using CarRentalManagement.Shared.Domain;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
+using CarRentalManagement.Server.IRepository;
+using CarRentalManagement.Shared.Domain;
 
 namespace CarRentalManagement.Server.Controllers
 {
@@ -28,56 +28,56 @@ namespace CarRentalManagement.Server.Controllers
     [HttpGet]
     public async Task<IActionResult> GetVehicles()
     {
-      var Vehicles = await _unitOfWork.Vehicles.GetAll(includes: q => q.Include(x => x.Make).Include(x => x.Model)
+      var vehicles = await _unitOfWork.Vehicles.GetAll(includes: q => q.Include(x => x.Make).Include(x => x.Model)
           .Include(x => x.Colour));
-      return Ok(Vehicles);
+      return Ok(vehicles);
     }
 
     // GET: /Vehicles/5
     [HttpGet("{id}")]
     public async Task<IActionResult> GetVehicle(int id)
     {
-      var Vehicle = await _unitOfWork.Vehicles.Get(q => q.Id == id);
+      var vehicle = await _unitOfWork.Vehicles.Get(q => q.Id == id);
 
-      if (Vehicle == null)
+      if (vehicle == null)
       {
         return NotFound();
       }
 
-      return Ok(Vehicle);
+      return Ok(vehicle);
     }
 
     // GET: /Vehicles/5/details
     [HttpGet("{id}/details")]
     public async Task<IActionResult> GetVehicleDetails(int id)
     {
-      var Vehicle = await _unitOfWork.Vehicles.Get(q => q.Id == id,
+      var vehicle = await _unitOfWork.Vehicles.Get(q => q.Id == id,
           includes: q => q.Include(x => x.Make).Include(x => x.Model).Include(x => x.Colour));
 
-      if (Vehicle == null)
+      if (vehicle == null)
       {
         return NotFound();
       }
 
-      return Ok(Vehicle);
+      return Ok(vehicle);
     }
 
     // PUT: api/Vehicles/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutVehicle(int id, Vehicle Vehicle)
+    public async Task<IActionResult> PutVehicle(int id, Vehicle vehicle)
     {
-      if (id != Vehicle.Id)
+      if (id != vehicle.Id)
       {
         return BadRequest();
       }
 
-      if (Vehicle.Image != null)
+      if (vehicle.Image != null)
       {
-        Vehicle.ImageName = CreateFile(Vehicle.Image, Vehicle.ImageName);
+        vehicle.ImageName = CreateFile(vehicle.Image, vehicle.ImageName);
       }
 
-      _unitOfWork.Vehicles.Update(Vehicle);
+      _unitOfWork.Vehicles.Update(vehicle);
 
       try
       {
@@ -101,25 +101,25 @@ namespace CarRentalManagement.Server.Controllers
     // POST: api/Vehicles
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Vehicle>> PostVehicle(Vehicle Vehicle)
+    public async Task<ActionResult<Vehicle>> PostVehicle(Vehicle vehicle)
     {
-      if (Vehicle.Image != null)
+      if (vehicle.Image != null)
       {
-        Vehicle.ImageName = CreateFile(Vehicle.Image, Vehicle.ImageName);
+        vehicle.ImageName = CreateFile(vehicle.Image, vehicle.ImageName);
       }
 
-      await _unitOfWork.Vehicles.Insert(Vehicle);
+      await _unitOfWork.Vehicles.Insert(vehicle);
       await _unitOfWork.Save(HttpContext);
 
-      return CreatedAtAction("GetVehicle", new { id = Vehicle.Id }, Vehicle);
+      return CreatedAtAction("GetVehicle", new { id = vehicle.Id }, vehicle);
     }
 
     // DELETE: api/Vehicles/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteVehicle(int id)
     {
-      var Vehicle = await _unitOfWork.Vehicles.Get(q => q.Id == id);
-      if (Vehicle == null)
+      var vehicle = await _unitOfWork.Vehicles.Get(q => q.Id == id);
+      if (vehicle == null)
       {
         return NotFound();
       }
@@ -141,8 +141,8 @@ namespace CarRentalManagement.Server.Controllers
 
     private async Task<bool> VehicleExists(int id)
     {
-      var Vehicle = await _unitOfWork.Vehicles.Get(q => q.Id == id);
-      return Vehicle == null;
+      var vehicle = await _unitOfWork.Vehicles.Get(q => q.Id == id);
+      return vehicle == null;
     }
   }
 }

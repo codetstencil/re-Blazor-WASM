@@ -10,19 +10,19 @@ namespace CarRentalManagement.Client.Pages.Bookings
   public partial class FormComponent
   {
     [Parameter] public bool Disabled { get; set; } = false;
-    [Parameter] public Booking booking { get; set; }
+    [Parameter] public Booking Booking { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }
-    [Inject] private IHttpRepository<Vehicle> _clientVehicle { get; set; }
-    [Inject] private IHttpRepository<Customer> _clientCustomer { get; set; }
+    [Inject] private IHttpRepository<Vehicle> ClientVehicle { get; set; }
+    [Inject] private IHttpRepository<Customer> ClientCustomer { get; set; }
 
-    private List<Vehicle> Vehicles;
-    private List<Customer> Customers;
+    private List<Vehicle> _vehicles;
+    private List<Customer> _customers;
 
     protected override async Task OnInitializedAsync()
     {
-      Customers = await _clientCustomer.GetAll(Endpoints.CustomersEndpoint);
-      Vehicles = await _clientVehicle.GetAll(Endpoints.VehiclesEndpoint);
+      _customers = await ClientCustomer.GetAll(Endpoints.CustomersEndpoint);
+      _vehicles = await ClientVehicle.GetAll(Endpoints.VehiclesEndpoint);
     }
   }
 }

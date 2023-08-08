@@ -8,7 +8,7 @@
     </a>
     <br />
     <br />
-    @if (Customers == null)
+    @if (_customers == null)
     {
         <div class="alert alert-info">Loading Customers...</div>
     }
@@ -24,7 +24,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var customer in Customers)
+                @foreach (var customer in _customers)
                 {
                     <tr>
                         <td>@customer.FirstName @customer.LastName</td>

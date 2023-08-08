@@ -1,8 +1,8 @@
-﻿using CarRentalManagement.Server.IRepository;
-using CarRentalManagement.Shared.Domain;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
+using CarRentalManagement.Server.IRepository;
+using CarRentalManagement.Shared.Domain;
 
 namespace CarRentalManagement.Server.Controllers
 {
@@ -12,10 +12,7 @@ namespace CarRentalManagement.Server.Controllers
   {
     private readonly IUnitOfWork _unitOfWork;
 
-    public ModelsController(IUnitOfWork unitOfWork)
-    {
-      _unitOfWork = unitOfWork;
-    }
+    public ModelsController(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
     // GET: /Models
     [HttpGet]
@@ -42,14 +39,14 @@ namespace CarRentalManagement.Server.Controllers
     // PUT: api/Models/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutModel(int id, Model Model)
+    public async Task<IActionResult> PutModel(int id, Model model)
     {
-      if (id != Model.Id)
+      if (id != model.Id)
       {
         return BadRequest();
       }
 
-      _unitOfWork.Models.Update(Model);
+      _unitOfWork.Models.Update(model);
 
       try
       {
@@ -73,20 +70,20 @@ namespace CarRentalManagement.Server.Controllers
     // POST: api/Models
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Model>> PostModel(Model Model)
+    public async Task<ActionResult<Model>> PostModel(Model model)
     {
-      await _unitOfWork.Models.Insert(Model);
+      await _unitOfWork.Models.Insert(model);
       await _unitOfWork.Save(HttpContext);
 
-      return CreatedAtAction("GetModel", new { id = Model.Id }, Model);
+      return CreatedAtAction("GetModel", new { id = model.Id }, model);
     }
 
     // DELETE: api/Models/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteModel(int id)
     {
-      var Model = await _unitOfWork.Models.Get(q => q.Id == id);
-      if (Model == null)
+      var model = await _unitOfWork.Models.Get(q => q.Id == id);
+      if (model == null)
       {
         return NotFound();
       }
@@ -98,8 +95,8 @@ namespace CarRentalManagement.Server.Controllers
 
     private async Task<bool> ModelExists(int id)
     {
-      var Model = await _unitOfWork.Models.Get(q => q.Id == id);
-      return Model == null;
+      var model = await _unitOfWork.Models.Get(q => q.Id == id);
+      return model == null;
     }
   }
 }

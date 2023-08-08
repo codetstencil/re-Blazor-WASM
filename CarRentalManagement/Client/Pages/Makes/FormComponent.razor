@@ -1,12 +1,12 @@
-﻿<EditForm Model="@make" OnValidSubmit="@OnValidSubmit">
+﻿<EditForm Model="@Make" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <fieldset disabled="@Disabled">
         <div class="form-group">
             <label>Name:</label>
             <div>
-                <InputText @bind-Value="@make.Name" class="form-control" />
-                <ValidationMessage For="@(() => make.Name)" />
+                <InputText @bind-Value="@Make.Name" class="form-control" />
+                <ValidationMessage For="@(() => Make.Name)" />
             </div>
         </div>
     </fieldset>

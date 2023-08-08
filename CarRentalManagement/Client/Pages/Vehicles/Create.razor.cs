@@ -13,11 +13,11 @@ namespace CarRentalManagement.Client.Pages.Vehicles
     [Inject] private NavigationManager _navManager { get; set; }
     [Inject] private HttpInterceptorService _interceptor { get; set; }
 
-    private Vehicle vehicle = new Vehicle();
+    private readonly Vehicle _vehicle = new Vehicle();
 
     private async Task CreateVehicle()
     {
-      await _client.Create(Endpoints.VehiclesEndpoint, vehicle);
+      await _client.Create(Endpoints.VehiclesEndpoint, _vehicle);
       _navManager.NavigateTo("/vehicles/");
     }
   }

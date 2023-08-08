@@ -1,14 +1,14 @@
-﻿using CarRentalManagement.Server.Data;
-using CarRentalManagement.Server.IRepository;
-using CarRentalManagement.Server.Models;
-using CarRentalManagement.Shared.Domain;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using CarRentalManagement.Server.Data;
+using CarRentalManagement.Server.IRepository;
+using CarRentalManagement.Server.Models;
+using CarRentalManagement.Shared.Domain;
 
 namespace CarRentalManagement.Server.Repository
 {

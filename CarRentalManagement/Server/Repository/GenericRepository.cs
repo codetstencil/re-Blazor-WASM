@@ -1,12 +1,12 @@
-﻿using CarRentalManagement.Server.Data;
-using CarRentalManagement.Server.IRepository;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+using CarRentalManagement.Server.Data;
+using CarRentalManagement.Server.IRepository;
 
 namespace CarRentalManagement.Server.Repository
 {
@@ -27,10 +27,7 @@ namespace CarRentalManagement.Server.Repository
       _db.Remove(record);
     }
 
-    public void DeleteRange(IEnumerable<T> entities)
-    {
-      _db.RemoveRange(entities);
-    }
+    public void DeleteRange(IEnumerable<T> entities) => _db.RemoveRange(entities);
 
     public async Task<T> Get(Expression<Func<T, bool>> expression, Func<IQueryable<T>, IIncludableQueryable<T, object>> includes = null)
     {
@@ -68,15 +65,8 @@ namespace CarRentalManagement.Server.Repository
       return await query.AsNoTracking().ToListAsync();
     }
 
-    public async Task Insert(T entity)
-    {
-      await _db.AddAsync(entity);
-    }
-
-    public async Task InsertRange(IEnumerable<T> entities)
-    {
-      await _db.AddRangeAsync(entities);
-    }
+    public async Task Insert(T entity) => await _db.AddAsync(entity);
+    public async Task InsertRange(IEnumerable<T> entities) => await _db.AddRangeAsync(entities);
 
     public void Update(T entity)
     {

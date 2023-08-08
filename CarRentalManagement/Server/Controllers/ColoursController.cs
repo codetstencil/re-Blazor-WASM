@@ -1,8 +1,8 @@
-﻿using CarRentalManagement.Server.IRepository;
-using CarRentalManagement.Shared.Domain;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
+using CarRentalManagement.Server.IRepository;
+using CarRentalManagement.Shared.Domain;
 
 namespace CarRentalManagement.Server.Controllers
 {
@@ -12,45 +12,42 @@ namespace CarRentalManagement.Server.Controllers
   {
     private readonly IUnitOfWork _unitOfWork;
 
-    public ColoursController(IUnitOfWork unitOfWork)
-    {
-      _unitOfWork = unitOfWork;
-    }
+    public ColoursController(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
     // GET: api/Colours
     // GET: /Colours
     [HttpGet]
     public async Task<IActionResult> GetColours()
     {
-      var Colours = await _unitOfWork.Colours.GetAll();
-      return Ok(Colours);
+      var colours = await _unitOfWork.Colours.GetAll();
+      return Ok(colours);
     }
 
     // GET: /Colours/5
     [HttpGet("{id}")]
     public async Task<IActionResult> GetColour(int id)
     {
-      var Colour = await _unitOfWork.Colours.Get(q => q.Id == id);
+      var colour = await _unitOfWork.Colours.Get(q => q.Id == id);
 
-      if (Colour == null)
+      if (colour == null)
       {
         return NotFound();
       }
 
-      return Ok(Colour);
+      return Ok(colour);
     }
 
     // PUT: api/Colours/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutColour(int id, Colour Colour)
+    public async Task<IActionResult> PutColour(int id, Colour colour)
     {
-      if (id != Colour.Id)
+      if (id != colour.Id)
       {
         return BadRequest();
       }
 
-      _unitOfWork.Colours.Update(Colour);
+      _unitOfWork.Colours.Update(colour);
 
       try
       {
@@ -74,20 +71,20 @@ namespace CarRentalManagement.Server.Controllers
     // POST: api/Colours
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Colour>> PostColour(Colour Colour)
+    public async Task<ActionResult<Colour>> PostColour(Colour colour)
     {
-      await _unitOfWork.Colours.Insert(Colour);
+      await _unitOfWork.Colours.Insert(colour);
       await _unitOfWork.Save(HttpContext);
 
-      return CreatedAtAction("GetColour", new { id = Colour.Id }, Colour);
+      return CreatedAtAction("GetColour", new { id = colour.Id }, colour);
     }
 
     // DELETE: api/Colours/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteColour(int id)
     {
-      var Colour = await _unitOfWork.Colours.Get(q => q.Id == id);
-      if (Colour == null)
+      var colour = await _unitOfWork.Colours.Get(q => q.Id == id);
+      if (colour == null)
       {
         return NotFound();
       }
@@ -99,8 +96,8 @@ namespace CarRentalManagement.Server.Controllers
 
     private async Task<bool> ColourExists(int id)
     {
-      var Colour = await _unitOfWork.Colours.Get(q => q.Id == id);
-      return Colour == null;
+      var colour = await _unitOfWork.Colours.Get(q => q.Id == id);
+      return colour == null;
     }
   }
 }

@@ -10,16 +10,16 @@ namespace CarRentalManagement.Client.Pages.Customers
 {
   public partial class View
   {
-    [Inject] private IHttpRepository<Customer> _client { get; set; }
+    [Inject] private IHttpRepository<Customer> Client { get; set; }
     [Inject] private IJSRuntime js { get; set; }
-    [Inject] private HttpInterceptorService _interceptor { get; set; }
+    [Inject] private HttpInterceptorService Interceptor { get; set; }
 
-    [Parameter] public int id { get; set; }
-    private Customer customer = new Customer();
+    [Parameter] public int Id { get; set; }
+    private Customer _customer = new Customer();
 
     protected override async Task OnParametersSetAsync()
     {
-      customer = await _client.Get(Endpoints.CustomersEndpoint, id);
+      _customer = await Client.Get(Endpoints.CustomersEndpoint, Id);
     }
   }
 }

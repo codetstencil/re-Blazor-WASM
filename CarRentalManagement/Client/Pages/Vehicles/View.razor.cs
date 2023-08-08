@@ -15,11 +15,9 @@ namespace CarRentalManagement.Client.Pages.Vehicles
     [Inject] private HttpInterceptorService _interceptor { get; set; }
 
     [Parameter] public int id { get; set; }
-    private Vehicle vehicle = new Vehicle();
+    private Vehicle _vehicle = new Vehicle();
 
-    protected override async Task OnParametersSetAsync()
-    {
-      vehicle = await _client.GetDetails(Endpoints.VehiclesEndpoint, id);
-    }
+    protected override async Task OnParametersSetAsync() => 
+      _vehicle = await _client.GetDetails(Endpoints.VehiclesEndpoint, id);
   }
 }

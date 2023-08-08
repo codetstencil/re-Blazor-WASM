@@ -11,16 +11,16 @@ namespace CarRentalManagement.Client.Pages.Vehicles
 {
   public partial class FormComponent
   {
-    private IList<Make> Makes;
-    private IList<Model> Models;
-    private IList<Colour> Colours;
-    private string UploadFileWarning;
+    private IList<Make> _makes;
+    private IList<Model> _models;
+    private IList<Colour> _colours;
+    private string _uploadFileWarning;
 
     protected override async Task OnInitializedAsync()
     {
-      Models = await _clientModels.GetAll(Endpoints.ModelsEndpoint);
-      Colours = await _clientColors.GetAll(Endpoints.ColoursEndpoint);
-      Makes = await _clientMakes.GetAll(Endpoints.MakesEndpoint);
+      _models = await _clientModels.GetAll(Endpoints.ModelsEndpoint);
+      _colours = await _clientColors.GetAll(Endpoints.ColoursEndpoint);
+      _makes = await _clientMakes.GetAll(Endpoints.MakesEndpoint);
     }
 
     private async void HandleFileSelection(InputFileChangeEventArgs e)
@@ -34,20 +34,20 @@ namespace CarRentalManagement.Client.Pages.Vehicles
             || ext.ToLower().Contains("jpeg"))
         {
           var picId = Guid.NewGuid().ToString().Replace("-", "");
-          vehicle.ImageName = $"{picId}{ext}";
-          vehicle.Image = new byte[file.Size];
-          await file.OpenReadStream().ReadAsync(vehicle.Image);
-          UploadFileWarning = string.Empty;
+          Vehicle.ImageName = $"{picId}{ext}";
+          Vehicle.Image = new byte[file.Size];
+          await file.OpenReadStream().ReadAsync(Vehicle.Image);
+          _uploadFileWarning = string.Empty;
         }
         else
         {
-          UploadFileWarning = "Please select a valid image file (*.jpg | *.png)";
+          _uploadFileWarning = "Please select a valid image file (*.jpg | *.png)";
         }
       }
     }
 
     [Parameter] public bool Disabled { get; set; } = false;
-    [Parameter] public Vehicle vehicle { get; set; }
+    [Parameter] public Vehicle Vehicle { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }
     [Inject] private IHttpRepository<Make> _clientMakes { get; set; }

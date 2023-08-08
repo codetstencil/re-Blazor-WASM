@@ -1,8 +1,8 @@
-﻿using CarRentalManagement.Server.IRepository;
-using CarRentalManagement.Shared.Domain;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
+using CarRentalManagement.Server.IRepository;
+using CarRentalManagement.Shared.Domain;
 
 namespace CarRentalManagement.Server.Controllers
 {
@@ -13,10 +13,7 @@ namespace CarRentalManagement.Server.Controllers
   {
     private readonly IUnitOfWork _unitOfWork;
 
-    public MakesController(IUnitOfWork unitOfWork)
-    {
-      _unitOfWork = unitOfWork;
-    }
+    public MakesController(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
     // GET: /Makes
     [HttpGet]

@@ -8,21 +8,21 @@ namespace CarRentalManagement.Client.Pages.Colours
 {
   public partial class Edit
   {
-    [Inject] private IHttpRepository<Colour> _client { get; set; }
-    [Inject] private NavigationManager _navManager { get; set; }
+    [Inject] private IHttpRepository<Colour> Client { get; set; }
+    [Inject] private NavigationManager NavManager { get; set; }
 
-    [Parameter] public int id { get; set; }
+    [Parameter] public int Id { get; set; }
     private Colour colour = new Colour();
 
     protected override async Task OnParametersSetAsync()
     {
-      colour = await _client.Get(Endpoints.ColoursEndpoint, id);
+      colour = await Client.Get(Endpoints.ColoursEndpoint, Id);
     }
 
     private async Task EditColour()
     {
-      await _client.Update(Endpoints.ColoursEndpoint, colour, id);
-      _navManager.NavigateTo("/colours/");
+      await Client.Update(Endpoints.ColoursEndpoint, colour, Id);
+      NavManager.NavigateTo("/colours/");
     }
   }
 }

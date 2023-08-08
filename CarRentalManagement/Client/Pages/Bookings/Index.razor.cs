@@ -12,13 +12,13 @@ namespace CarRentalManagement.Client.Pages.Bookings
 {
   public partial class Index : IDisposable
   {
-    private List<Booking> Bookings;
-    [Inject] private IHttpRepository<Booking> _client { get; set; }
+    private List<Booking> _bookings;
+    [Inject] private IHttpRepository<Booking> Client { get; set; }
     [Inject] private IJSRuntime js { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-      Bookings = await _client.GetAll($"{Endpoints.BookingsEndpoint}");
+      _bookings = await Client.GetAll($"{Endpoints.BookingsEndpoint}");
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -33,11 +33,11 @@ namespace CarRentalManagement.Client.Pages.Bookings
 
     private async Task Delete(int bookingsId)
     {
-      var bookings = Bookings.First(q => q.Id == bookingsId);
+      var bookings = _bookings.First(q => q.Id == bookingsId);
       var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {bookings.Customer.TaxId}?");
       if (confirm)
       {
-        await _client.Delete(Endpoints.BookingsEndpoint, bookingsId);
+        await Client.Delete(Endpoints.BookingsEndpoint, bookingsId);
         await OnInitializedAsync();
       }
     }

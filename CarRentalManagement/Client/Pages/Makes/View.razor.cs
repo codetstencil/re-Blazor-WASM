@@ -10,16 +10,14 @@ namespace CarRentalManagement.Client.Pages.Makes
 {
   public partial class View
   {
-    [Inject] private IHttpRepository<Make> _client { get; set; }
+    [Inject] private IHttpRepository<Make> Client { get; set; }
     [Inject] private IJSRuntime js { get; set; }
-    [Inject] private HttpInterceptorService _interceptor { get; set; }
+    [Inject] private HttpInterceptorService Interceptor { get; set; }
 
-    [Parameter] public int id { get; set; }
-    private Make make = new Make();
+    [Parameter] public int Id { get; set; }
+    private Make _make = new Make();
 
-    protected override async Task OnParametersSetAsync()
-    {
-      make = await _client.Get(Endpoints.MakesEndpoint, id);
-    }
+    protected override async Task OnParametersSetAsync() => 
+      _make = await Client.Get(Endpoints.MakesEndpoint, Id);
   }
 }

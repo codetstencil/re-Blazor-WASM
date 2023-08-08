@@ -1,7 +1,7 @@
-﻿using CarRentalManagement.Shared.Domain;
-using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using CarRentalManagement.Shared.Domain;
 
 namespace CarRentalManagement.Server.IRepository
 {

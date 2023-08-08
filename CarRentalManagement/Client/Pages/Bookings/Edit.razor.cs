@@ -8,20 +8,18 @@ namespace CarRentalManagement.Client.Pages.Bookings
 {
   public partial class Edit
   {
-    [Inject] private IHttpRepository<Booking> _client { get; set; }
-    [Inject] private NavigationManager _navManager { get; set; }
-    [Parameter] public int id { get; set; }
-    private Booking booking = new Booking();
+    [Inject] private IHttpRepository<Booking> Client { get; set; }
+    [Inject] private NavigationManager NavManager { get; set; }
+    [Parameter] public int Id { get; set; }
+    private Booking _booking = new Booking();
 
-    protected override async Task OnParametersSetAsync()
-    {
-      booking = await _client.Get(Endpoints.BookingsEndpoint, id);
-    }
+    protected override async Task OnParametersSetAsync() => 
+      _booking = await Client.Get(Endpoints.BookingsEndpoint, Id);
 
     private async Task EditBooking()
     {
-      await _client.Update(Endpoints.BookingsEndpoint, booking, id);
-      _navManager.NavigateTo("/bookings/");
+      await Client.Update(Endpoints.BookingsEndpoint, _booking, Id);
+      NavManager.NavigateTo("/bookings/");
     }
   }
 }

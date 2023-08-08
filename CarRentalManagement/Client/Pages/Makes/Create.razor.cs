@@ -8,15 +8,15 @@ namespace CarRentalManagement.Client.Pages.Makes
 {
   public partial class Create
   {
-    [Inject] private IHttpRepository<Make> _client { get; set; }
-    [Inject] private NavigationManager _navManager { get; set; }
+    [Inject] private IHttpRepository<Make> Client { get; set; }
+    [Inject] private NavigationManager NavManager { get; set; }
 
-    private Make make = new Make();
+    private readonly Make _make = new Make();
 
     private async Task CreateMake()
     {
-      await _client.Create(Endpoints.MakesEndpoint, make);
-      _navManager.NavigateTo("/makes/");
+      await Client.Create(Endpoints.MakesEndpoint, _make);
+      NavManager.NavigateTo("/makes/");
     }
   }
 }

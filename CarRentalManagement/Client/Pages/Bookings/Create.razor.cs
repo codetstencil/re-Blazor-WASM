@@ -9,18 +9,18 @@ namespace CarRentalManagement.Client.Pages.Bookings
 {
   public partial class Create
   {
-    [Inject] private IHttpRepository<Booking> _client { get; set; }
-    [Inject] private NavigationManager _navManager { get; set; }
+    [Inject] private IHttpRepository<Booking> Client { get; set; }
+    [Inject] private NavigationManager NavManager { get; set; }
 
-    private Booking booking = new Booking
+    private readonly Booking _booking = new Booking
     {
       DateOut = DateTime.Now.Date
     };
 
     private async Task CreateBooking()
     {
-      await _client.Create(Endpoints.BookingsEndpoint, booking);
-      _navManager.NavigateTo("/bookings/");
+      await Client.Create(Endpoints.BookingsEndpoint, _booking);
+      NavManager.NavigateTo("/bookings/");
     }
   }
 }

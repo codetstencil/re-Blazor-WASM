@@ -11,7 +11,7 @@
     <br />
     <br />
 
-    @if (Vehicles == null)
+    @if (_vehicles == null)
     {
         <div class="alert alert-info">Loading Vehicles...</div>
     }
@@ -29,7 +29,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var vehicle in Vehicles)
+                @foreach (var vehicle in _vehicles)
                 {
                     <tr>
                         <td><img src="@vehicle.ImageName" style="height: 150px; width: 150px"/></td>

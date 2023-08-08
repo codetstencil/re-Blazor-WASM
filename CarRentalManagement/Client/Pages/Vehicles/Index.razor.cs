@@ -16,16 +16,14 @@ namespace CarRentalManagement.Client.Pages.Vehicles
     [Inject] private IJSRuntime js { get; set; }
     [Inject] private HttpInterceptorService _interceptor { get; set; }
 
-    private List<Vehicle> Vehicles;
+    private List<Vehicle> _vehicles;
 
-    protected override async Task OnInitializedAsync()
-    {
-      Vehicles = await _client.GetAll($"{Endpoints.VehiclesEndpoint}");
-    }
+    protected override async Task OnInitializedAsync() => 
+      _vehicles = await _client.GetAll($"{Endpoints.VehiclesEndpoint}");
 
     private async Task Delete(int vehicleId)
     {
-      var vehicle = Vehicles.First(q => q.Id == vehicleId);
+      var vehicle = _vehicles.First(q => q.Id == vehicleId);
       var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {vehicle.Vin}?");
       if (confirm)
       {

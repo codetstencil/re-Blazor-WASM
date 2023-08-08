@@ -8,14 +8,12 @@ namespace CarRentalManagement.Client.Pages.Bookings
 {
   public partial class View
   {
-    [Parameter] public int id { get; set; }
-    [Inject] private IHttpRepository<Booking> _client { get; set; }
+    [Parameter] public int Id { get; set; }
+    [Inject] private IHttpRepository<Booking> Client { get; set; }
 
-    private Booking booking = new Booking();
+    private Booking _booking = new Booking();
 
-    protected override async Task OnParametersSetAsync()
-    {
-      booking = await _client.Get(Endpoints.BookingsEndpoint, id);
-    }
+    protected override async Task OnParametersSetAsync() => 
+      _booking = await Client.Get(Endpoints.BookingsEndpoint, Id);
   }
 }

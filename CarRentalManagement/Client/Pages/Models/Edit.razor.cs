@@ -9,22 +9,22 @@ namespace CarRentalManagement.Client.Pages.Models
 {
   public partial class Edit
   {
-    [Inject] private IHttpRepository<Model> _client { get; set; }
-    [Inject] private NavigationManager _navManager { get; set; }
-    [Inject] private HttpInterceptorService _interceptor { get; set; }
+    [Inject] private IHttpRepository<Model> Client { get; set; }
+    [Inject] private NavigationManager NavManager { get; set; }
+    [Inject] private HttpInterceptorService Interceptor { get; set; }
 
-    [Parameter] public int id { get; set; }
-    private Model model = new Model();
+    [Parameter] public int Id { get; set; }
+    private Model _model = new Model();
 
     protected override async Task OnParametersSetAsync()
     {
-      model = await _client.Get(Endpoints.ModelsEndpoint, id);
+      _model = await Client.Get(Endpoints.ModelsEndpoint, Id);
     }
 
     private async Task EditModel()
     {
-      await _client.Update(Endpoints.ModelsEndpoint, model, id);
-      _navManager.NavigateTo("/models/");
+      await Client.Update(Endpoints.ModelsEndpoint, _model, Id);
+      NavManager.NavigateTo("/models/");
     }
   }
 }

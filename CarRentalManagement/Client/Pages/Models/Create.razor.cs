@@ -8,15 +8,15 @@ namespace CarRentalManagement.Client.Pages.Models
 {
   public partial class Create
   {
-    [Inject] private IHttpRepository<Model> _client { get; set; }
-    [Inject] private NavigationManager _navManager { get; set; }
+    [Inject] private IHttpRepository<Model> Client { get; set; }
+    [Inject] private NavigationManager NavManager { get; set; }
 
-    private Model model = new Model();
+    private readonly Model _model = new Model();
 
     private async Task CreateModel()
     {
-      await _client.Create(Endpoints.ModelsEndpoint, model);
-      _navManager.NavigateTo("/models/");
+      await Client.Create(Endpoints.ModelsEndpoint, _model);
+      NavManager.NavigateTo("/models/");
     }
   }
 }

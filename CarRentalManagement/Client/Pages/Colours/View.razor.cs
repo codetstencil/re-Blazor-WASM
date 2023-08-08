@@ -9,14 +9,14 @@ namespace CarRentalManagement.Client.Pages.Colours
 {
   public partial class View
   {
-    [Inject] private IHttpRepository<Colour> _client { get; set; }
+    [Inject] private IHttpRepository<Colour> Client { get; set; }
     [Inject] private IJSRuntime js { get; set; }
-    [Parameter] public int id { get; set; }
+    [Parameter] public int Id { get; set; }
     private Colour colour = new Colour();
 
     protected override async Task OnParametersSetAsync()
     {
-      colour = await _client.Get(Endpoints.ColoursEndpoint, id);
+      colour = await Client.Get(Endpoints.ColoursEndpoint, Id);
     }
   }
 }

@@ -12,24 +12,24 @@ namespace CarRentalManagement.Client.Pages.Customers
 {
   public partial class Index
   {
-    [Inject] private IHttpRepository<Customer> _client { get; set; }
+    [Inject] private IHttpRepository<Customer> Client { get; set; }
     [Inject] private IJSRuntime js { get; set; }
-    [Inject] private HttpInterceptorService _interceptor { get; set; }
+    [Inject] private HttpInterceptorService Interceptor { get; set; }
 
-    private List<Customer> Customers;
+    private List<Customer> _customers;
 
     protected override async Task OnInitializedAsync()
     {
-      Customers = await _client.GetAll(Endpoints.CustomersEndpoint);
+      _customers = await Client.GetAll(Endpoints.CustomersEndpoint);
     }
 
     private async Task Delete(int customerId)
     {
-      var customer = Customers.First(q => q.Id == customerId);
+      var customer = _customers.First(q => q.Id == customerId);
       var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {customer.TaxId}?");
       if (confirm)
       {
-        await _client.Delete(Endpoints.CustomersEndpoint, customerId);
+        await Client.Delete(Endpoints.CustomersEndpoint, customerId);
         await OnInitializedAsync();
       }
     }
